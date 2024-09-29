@@ -7,6 +7,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import openai
 
 # Configuración de la página
 st.set_page_config(page_title="Análisis de Indicadores Financieros", layout="wide")
@@ -113,4 +114,37 @@ with col4:
 # Mostrar el número de empresas después de aplicar los filtros
 st.write(f"Número de empresas mostradas: {len(filtered_df)}")
 
+
+
+
+st.header("Consulta a tu asistente de IA")
+
+# Instanciar el cliente de OpenAI
+client = openai.OpenAI(api_key=openai_api_key)
+
+
+def obtener_respuesta(prompt):
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",  # Ajusta el modelo según lo que necesites
+        messages=[
+            {"role": "system", "content": """
+            Eres un financiero que trabaja para la consultora ABC experto en el área de solvencia,
+            entonces vas a responder todo desde la perspectiva de la consultora. Contesta siempre en español
+            en un máximo de 100 palabras.
+            """},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    output = response.choices[0].message.content
+    return output
+
+# Solicitar el prompt al usuario
+prompt = st.text_area("Escribe tus dudas:")
+
+if st.button("Obtener respuesta"):
+    if prompt:
+        output = obtener_respuesta(prompt)
+        st.write("Respuesta:", output)
+    else:
+        st.write("Parece que no has hecho ninguna pregunta, intenta de nuevo.")
 
