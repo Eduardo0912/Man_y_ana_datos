@@ -120,6 +120,7 @@ st.write(f"Número de empresas mostradas: {len(filtered_df)}")
 st.header("Consulta a tu asistente de IA")
 
 # Instanciar el cliente de OpenAI
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 client = openai.OpenAI(api_key=openai_api_key)
 
 
