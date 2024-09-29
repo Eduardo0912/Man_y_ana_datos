@@ -1,6 +1,6 @@
 
 #Primero ejecutar los siguientes comandos en la consola
-pip install streamlit pandas plotly openai
+#pip install streamlit pandas plotly openai
 #streamlit run main.py 
 
 
